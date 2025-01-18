@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
 import { StoreContext } from "../context/StoreContext";
 import { assets } from "../frontend_assets/assets.js";
+import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
-  const { food_list, cartItems, removeFromCart } = useContext(StoreContext);
+  const navigate = useNavigate();
+  const { food_list, cartItems, removeFromCart,getTotalPrice } = useContext(StoreContext);
 
   return (
     <div className="mx-auto px-4 py-6 max-w-screen-xl">
@@ -63,7 +65,7 @@ const CartPage = () => {
                 <div className="flex justify-center sm:justify-start">
                   <p
                     onClick={() => removeFromCart(item._id)}
-                    className="bg-orange-500 text-white rounded-lg p-2 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500"
+                    className="bg-orange-500 text-white rounded-lg p-2 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 cursor-pointer"
                   >
                     Remove
                   </p>
@@ -86,7 +88,7 @@ const CartPage = () => {
             {/* Subtotal */}
             <div className="flex justify-between items-center">
               <p className="text-gray-600">Subtotal</p>
-              <p className="text-gray-800 font-medium">Rs {0}</p>
+              <p className="text-gray-800 font-medium">Rs {getTotalPrice()}</p>
             </div>
             <hr />
             {/* Delivery Fee */}
@@ -102,7 +104,7 @@ const CartPage = () => {
             </div>
           </div>
           {/* Checkout Button */}
-          <button className="w-full mt-6 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500">
+          <button onClick={() => navigate('/place-order')} className="w-full mt-6 bg-orange-500 text-white py-2 px-4 rounded-lg hover:bg-orange-600 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500">
             Proceed to Checkout
           </button>
         </div>

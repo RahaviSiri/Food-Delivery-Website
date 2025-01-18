@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { assets } from "../frontend_assets/assets.js";
 import { NavLink, useNavigate } from "react-router-dom";
+import { StoreContext } from "../context/StoreContext.jsx"
 
 const NavBar = () => {
+
+    const { count } = useContext(StoreContext);
     const [showMenu, setShowMenu] = useState(false);
     const navigate = useNavigate();
 
@@ -74,7 +77,7 @@ const NavBar = () => {
                     />
                     {/* Cart Item Count */}
                     <div className="absolute top-[-5px] right-[-5px] bg-orange-400 text-white text-sm rounded-full w-5 h-5 flex items-center justify-center">
-                        0
+                        {count}
                     </div>
                 </div>
 
