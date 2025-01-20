@@ -1,13 +1,18 @@
 import { createContext, useEffect, useState } from "react";
-import { food_list } from "../frontend_assets/assets.js";
+import { url } from "../frontend_assets/assets.js";
+import { toast } from "react-toastify"
+import axios from "axios"
 
 export const StoreContext = createContext();
 
 const StoreContextProvider = (props) => {
 
     const currency = "Rs";
+    const backendURL = url;
     const [cartItems,setCartItems] = useState({});
     const [count, setCount] = useState(0);
+    const [token, setToken] = useState(localStorage.getItem("token") ? localStorage.getItem("token") : "" );
+    const [food_list,setFood_list] = useState([]);
 
     const addToCart = (itemId) => {
         if(!cartItems[itemId]){
@@ -28,15 +33,18 @@ const StoreContextProvider = (props) => {
 
     const getTotalPrice = () => {
         let total = 0;
-        for(const item in cartItems){
-            if(cartItems[item] > 0){
-                let priceItem = food_list[item - 1].price * cartItems[item];
-                total += priceItem
+        for(const item in cartItems) {
+            if(cartItems[item] > 0) {
+                // Find the matching food item based on the item ID
+                const foodItem = food_list.find(food => food._id === item);
+                if (foodItem) {
+                    total += foodItem.price * cartItems[item];
+                }
             }
         }
-        console.log(total);
         return total;
     }
+    
 
     const getCartCount = () => {
         let countItem = 0;
@@ -47,6 +55,23 @@ const StoreContextProvider = (props) => {
         }
         setCount(countItem);
     }
+
+    const getList = async () => {
+        try {
+            const { data } = await axios.get(backendURL + "/api/food/get-food");
+            if(data.success){
+                setFood_list(data.foods);
+            }else{
+                toast.error("Error");
+            }
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
+    useEffect(() => {
+        getList();
+    })
 
     useEffect(() => {
         getTotalPrice();
@@ -63,6 +88,9 @@ const StoreContextProvider = (props) => {
         removeFromCart,
         getTotalPrice,
         count,
+        backendURL,
+        setToken,
+        token
         
     }
 
