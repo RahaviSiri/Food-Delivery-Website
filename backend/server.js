@@ -7,6 +7,7 @@ import "dotenv/config"
 import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import foodRouter from "./routes/foodRoutes.js";
+import userRouter from "./routes/userRoutes.js";
 
 // App Config
 const app = express();
@@ -25,6 +26,7 @@ app.get("/",(req,res) => {
     res.send("API working");
 });
 app.use('/api/food',foodRouter)
+app.use('/api/user',userRouter)
 
 
 app.listen(port,() => {

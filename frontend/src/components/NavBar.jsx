@@ -1,18 +1,27 @@
 import React, { useContext, useState } from "react";
 import { assets } from "../frontend_assets/assets.js";
 import { NavLink, useNavigate } from "react-router-dom";
-import { StoreContext } from "../context/StoreContext.jsx"
+import { StoreContext } from "../context/StoreContext.jsx";
 
 const NavBar = () => {
-
-    const { count } = useContext(StoreContext);
+    const { count, token, setToken } = useContext(StoreContext);
     const [showMenu, setShowMenu] = useState(false);
     const navigate = useNavigate();
+
+    const Logout = () => {
+        localStorage.removeItem("token");
+        setToken(false);
+        navigate('/');
+    }
 
     return (
         <div className="py-10 flex justify-between items-center">
             {/* Logo */}
-            <img src={assets.logo} alt="Company Logo" className="w-20 sm:w-32 lg:w-[150px]" />
+            <img
+                src={assets.logo}
+                alt="Company Logo"
+                className="w-20 sm:w-32 lg:w-[150px]"
+            />
 
             {/* Navigation Links */}
             <ul className="gap-5 text-gray-600 list-none hidden lg:flex">
@@ -81,13 +90,39 @@ const NavBar = () => {
                     </div>
                 </div>
 
-                {/* Login Button */}
-                <button
-                    className="text-white px-4 py-1 text-sm sm:text-md sm:px-10 rounded-full sm:py-2 bg-orange-600 hover:bg-orange-500 transition-all duration-500 cursor-pointer hidden lg:block"
-                    onClick={() => navigate("/login")}
-                >
-                    Login
-                </button>
+                {/* Profile Dropdown */}
+                {token ? (
+                    <div className="relative group flex items-center cursor-pointer mr-2 sm:mr-3">
+                    <img
+                        src={assets.profile_icon}
+                        alt="Profile Icon"
+                        className="w-4 md:w-6 rounded-full"
+                    />
+                    <div className="absolute right-0 top-full hidden group-hover:block bg-stone-100 rounded shadow-md p-3 sm:p-4 w-24 md:w-48 z-20">
+                        <div className='rounded flex flex-col gap-2'>
+                            <p 
+                                className="hover:text-black cursor-pointer text-sm sm:text-base" 
+                                onClick={() => navigate("/place-order")}
+                            >
+                                Orders
+                            </p>
+                            <p 
+                                className="hover:text-black cursor-pointer text-sm sm:text-base" 
+                                onClick={Logout}
+                            >
+                                Logout
+                            </p>
+                        </div>
+                    </div>
+                </div>                   
+                ) : (
+                    <button
+                        className="hidden lg:block bg-orange-600 text-white px-6 py-2 rounded-full hover:bg-orange-500 transition-all"
+                        onClick={() => navigate("/login")}
+                    >
+                        Login
+                    </button>
+                )}
 
                 {/* For Mobile */}
                 <img
@@ -110,7 +145,10 @@ const NavBar = () => {
                         />
                     </div>
                     <ul className="flex flex-col items-center gap-2 mt-5 px-5 text-lg font-medium">
-                        <p className="text-black text-xl my-2">Welcome to <span className="text-orange-500 text-2xl ">AaRa's</span>  Kitchen</p>
+                        <p className="text-black text-xl my-2">
+                            Welcome to{" "}
+                            <span className="text-orange-500 text-2xl ">AaRa's</span> Kitchen
+                        </p>
                         <NavLink onClick={() => setShowMenu(false)} to="/">
                             <p className="px-4 py-2 rounded inline-block">Home</p>
                         </NavLink>
@@ -126,17 +164,31 @@ const NavBar = () => {
                         <NavLink onClick={() => setShowMenu(false)} to="/cart">
                             <p className="px-4 py-2 rounded inline-block">Your Cart Items</p>
                         </NavLink>
-                        <hr className="w-[50%] border-orange-500"/>
+                        <NavLink onClick={() => setShowMenu(false)} to="/login">
+                            <p className={`${token ? "hidden" : "px-4 py-2 rounded inline-block"}`}> Login</p>
+                        </NavLink>
+                        <hr className="w-[50%] border-orange-500" />
                         {/* <button
                         className="mt-2 text-white px-6 py-2 rounded-full bg-orange-600 hover:bg-orange-500 transition-all duration-500 cursor-pointer"
                         onClick={() => {navigate("/login"),setShowMenu(false)}}
                         >
                             Login
                         </button> */}
-                        <p className="text-sm mt-2">Join the AaRa's Kitchen Family <span className="text-orange-500 text-xl ">Today!</span> </p>
+                        <p className="text-sm mt-2">
+                            Join the AaRa's Kitchen Family{" "}
+                            <span className="text-orange-500 text-xl ">Today!</span>{" "}
+                        </p>
                         <div className="flex justify-between items-center gap-3 mt-4">
-                            <img src={assets.facebook_icon} alt="" className="bg-orange-600"/>
-                            <img src={assets.linkedin_icon} alt="" className="bg-orange-600"/>
+                            <img
+                                src={assets.facebook_icon}
+                                alt=""
+                                className="bg-orange-600"
+                            />
+                            <img
+                                src={assets.linkedin_icon}
+                                alt=""
+                                className="bg-orange-600"
+                            />
                         </div>
                     </ul>
                 </div>

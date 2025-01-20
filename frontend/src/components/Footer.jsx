@@ -49,9 +49,9 @@ const Footer = () => {
         <div className="flex-1">
           <h2 className="text-lg font-semibold mb-4 underline">Get In Touch</h2>
           <ul className="space-y-2">
-            <li className="hover:underline"><i class="fa fa-phone mr-2" aria-hidden="true"></i> {" "}{" "}
+            <li className="hover:underline"><i className="fa fa-phone mr-2" aria-hidden="true"></i> {" "}{" "}
              074 0902 539</li>
-            <li className="hover:underline"><i class="fa fa-envelope mr-2" aria-hidden="true"></i> {" "}{" "}
+            <li className="hover:underline"><i className="fa fa-envelope mr-2" aria-hidden="true"></i> {" "}{" "}
              rahavi24siri@gmail.com</li>
           </ul>
         </div>

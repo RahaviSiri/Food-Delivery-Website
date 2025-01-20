@@ -86,6 +86,8 @@ export const assets = {
     bg
 }
 
+export const url = 'http://localhost:4000';
+
 export const menu_list = [
     {
         menu_name: "Salad",

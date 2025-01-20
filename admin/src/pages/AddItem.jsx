@@ -39,6 +39,7 @@ const AddItem = () => {
           price:"",
           category:"Salad"
         })
+        setImage(false);
       }else{
         console.log(data.message)
         toast.error(data.message)
