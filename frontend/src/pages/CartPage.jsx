@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { food_list, cartItems, removeFromCart,getTotalPrice } = useContext(StoreContext);
+  const { count,food_list, cartItems, removeFromCart,getTotalPrice } = useContext(StoreContext);
 
   return (
     <div className="mx-auto px-4 py-6 max-w-screen-xl">
@@ -94,13 +94,13 @@ const CartPage = () => {
             {/* Delivery Fee */}
             <div className="flex justify-between items-center">
               <p className="text-gray-600">Delivery Fee</p>
-              <p className="text-gray-800 font-medium">Rs {0}</p>
+              <p className="text-gray-800 font-medium">Rs {count > 0 ? 200 : 0}</p>
             </div>
             <hr />
             {/* Total */}
             <div className="flex justify-between items-center">
               <p className="text-lg font-semibold text-gray-800">Total</p>
-              <p className="text-lg font-semibold text-gray-800">Rs {0}</p>
+              <p className="text-lg font-semibold text-gray-800">Rs {count > 0 ? getTotalPrice() + 200 : getTotalPrice()}</p>
             </div>
           </div>
           {/* Checkout Button */}

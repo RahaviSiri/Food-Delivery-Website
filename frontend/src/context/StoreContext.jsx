@@ -14,21 +14,47 @@ const StoreContextProvider = (props) => {
     const [token, setToken] = useState(localStorage.getItem("token") ? localStorage.getItem("token") : "" );
     const [food_list,setFood_list] = useState([]);
 
-    const addToCart = (itemId) => {
-        if(!cartItems[itemId]){
-            setCartItems((prev) => ({...prev,[itemId]:1}))
-        }else{
-            setCartItems((prev) => ({...prev,[itemId]:prev[itemId] + 1}))
+    const addToCart = async (itemId) => {
+        try {
+            const { data } = await axios.post(backendURL + "/api/cart/add-cart",{itemId},{headers:{token}});
+            if(data.success){
+                toast.success(data.message);
+                getCartItems();
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            console.log(error.message);
+            toast.error(error.message);
         }
     }
-    const removeFromCart = (itemId) => {
-        setCartItems((prev) => {
-            const currentCount = prev[itemId] || 0;
-            if (currentCount > 0) {
-                return { ...prev, [itemId]: currentCount - 1 };
+    const removeFromCart = async (itemId) => {
+        try {
+            const { data } = await axios.post(backendURL + "/api/cart/remove-cart",{itemId},{headers:{token}});
+            if(data.success){
+                toast.success(data.message);
+                getCartItems();
+            }else{
+                toast.error(data.message)
             }
-            return prev; 
-        });
+        } catch (error) {
+            console.log(error.message);
+            toast.error(error.message);
+        }
+    }
+
+    const getCartItems = async () => {
+        try {
+            const { data } = await axios.get(backendURL + "/api/cart/get-cart",{headers:{token}});
+            if(data.success){
+                setCartItems(data.cartData)
+            }else{
+                toast.error(data.message)
+            }
+        } catch (error) {
+            console.log(error.message);
+            toast.error(error.message);
+        }
     }
 
     const getTotalPrice = () => {
@@ -76,7 +102,7 @@ const StoreContextProvider = (props) => {
     useEffect(() => {
         getTotalPrice();
         getCartCount();
-        console.log(count);
+        // console.log(count);
     },[cartItems])
 
     const values = {
@@ -90,7 +116,8 @@ const StoreContextProvider = (props) => {
         count,
         backendURL,
         setToken,
-        token
+        token,
+        getCartCount,
         
     }
 
