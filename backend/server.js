@@ -8,6 +8,8 @@ import connectDB from "./config/mongodb.js";
 import connectCloudinary from "./config/cloudinary.js";
 import foodRouter from "./routes/foodRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import cartRouter from "./routes/cartRoutes.js";
+import orderRouter from "./routes/orderRoutes.js";
 
 // App Config
 const app = express();
@@ -27,7 +29,8 @@ app.get("/",(req,res) => {
 });
 app.use('/api/food',foodRouter)
 app.use('/api/user',userRouter)
-
+app.use('/api/cart',cartRouter)
+app.use('/api/order',orderRouter)
 
 app.listen(port,() => {
     console.log("Your Server running on port ", port);
