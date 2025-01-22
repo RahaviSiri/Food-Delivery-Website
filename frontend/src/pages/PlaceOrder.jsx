@@ -1,7 +1,8 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { StoreContext } from "../context/StoreContext";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { useNavigate } from "react-router-dom"
 
 const PlaceOrder = () => {
     // Context values
@@ -59,6 +60,15 @@ const PlaceOrder = () => {
         }
         
     };
+
+    const navigate = useNavigate();
+    useEffect(() => {
+        if(!token){
+            navigate('/')
+        } else if (count === 0){
+            navigate('/');
+        }
+    },[token])
 
     return (
         <div className="container mx-auto p-4">

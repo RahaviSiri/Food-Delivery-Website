@@ -102,7 +102,7 @@ const NavBar = () => {
                         <div className='rounded flex flex-col gap-2'>
                             <p 
                                 className="hover:text-black cursor-pointer text-sm sm:text-base" 
-                                onClick={() => navigate("/place-order")}
+                                onClick={() => navigate("/my-orders")}
                             >
                                 Orders
                             </p>

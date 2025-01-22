@@ -55,4 +55,57 @@ const proceedPayment = async (req,res) => {
     }
 }
 
-export { proceedPayment }
+// API to verify the order
+const verifyOrder = async (req,res) => {
+    try {
+        const { orderId,success } = req.body;
+        if(success == "true"){
+            await orderModel.findByIdAndUpdate(orderId,{payment:true});
+            return res.json({success:true,message:"Paid"})
+        }else{
+            await orderModel.findByIdAndDelete(orderId);
+            return res.json({success:false,message:"Cancelled"})
+        }
+    } catch (error) {
+        res.json({success:false,message:error.message});
+    }
+}
+
+// API to get user Order
+const getUserOrder = async (req,res) => {
+    try {
+        const { userId } = req.body;
+        const userOrders = await orderModel.find({userId: userId});
+        res.json({success:true,userOrders})
+    } catch (error) {
+        res.json({success:false,message:error.message});
+    }
+}
+
+// API get all orders
+const getAllOrders = async (req,res) => {
+    try {
+        const userOrders = await orderModel.find({});
+        res.json({success:true,userOrders})
+    } catch (error) {
+        res.json({success:false,message:error.message});
+    }
+}
+
+// API to update status
+const updateStatus = async (req, res) => {
+    try {
+        const { orderId, status } = req.body;
+        await orderModel.findByIdAndUpdate(
+            orderId,
+            { status : status },
+        );
+        return res.json({ success: true, message: "Updated"});
+    } catch (error) {
+        console.error(error); 
+        return res.status(500).json({ success: false, message: "Internal Server Error" });
+    }
+};
+
+
+export { proceedPayment,verifyOrder,getUserOrder,getAllOrders,updateStatus }
