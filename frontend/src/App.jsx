@@ -9,6 +9,8 @@ import Footer from "./components/Footer";
 import Login from "./pages/Login";
 import CartPage from "./pages/CartPage";
 import PlaceOrder from "./pages/PlaceOrder";
+import Verify from "./pages/Verify";
+import MyOrders from "./pages/MyOrders";
 
 const App = () => {
   return (
@@ -22,6 +24,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/place-order" element={<PlaceOrder />} />
+        <Route path="/verify" element={<Verify/>}/>
+        <Route path="/my-orders" element={<MyOrders/>}/>
       </Routes>
       <Footer />
     </div>
